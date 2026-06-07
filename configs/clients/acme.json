@@ -1,0 +1,13 @@
+{
+  "slug": "acme",
+  "name": "Acme AI",
+  "db_env_var": "DATABASE_URL_ACME",
+  "pages_subdir": "clients/acme",
+  "max_success_latency_ms": 30000,
+  "providers": [
+    {
+      "provider": "google",
+      "model": "gemini-2.5-flash"
+    }
+  ]
+}
