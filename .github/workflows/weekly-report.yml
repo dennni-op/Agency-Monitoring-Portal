@@ -1,0 +1,76 @@
+name: Weekly Client Reports
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Every Monday at 08:00 UTC
+    - cron: "0 8 * * 1"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  generate-reports:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Discover clients
+        id: discover
+        run: |
+          clients=$(python -c "
+          import json, os
+          from pathlib import Path
+          configs = sorted(Path('configs/clients').glob('*.json'))
+          slugs = [json.loads(p.read_text())['slug'] for p in configs]
+          print(','.join(slugs))
+          ")
+          echo "clients=$clients" >> "$GITHUB_OUTPUT"
+          echo "Discovered clients: $clients"
+
+      - name: Generate reports for all clients
+        env:
+          DATABASE_URL_ACME: ${{ secrets.DATABASE_URL_ACME }}
+        run: |
+          IFS=',' read -ra clients <<< "${{ steps.discover.outputs.clients }}"
+          failed=0
+          for slug in "${clients[@]}"; do
+            echo "=== Generating report for: $slug ==="
+            if python run_weekly_report.py --client "$slug"; then
+              echo "OK: $slug"
+            else
+              echo "FAILED: $slug"
+              failed=1
+            fi
+          done
+          exit $failed
+
+      - name: Create Pull Request with updated docs
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "chore: publish weekly client reports"
+          title: "chore: weekly client reliability reports"
+          body: |
+            Automated weekly report generation.
+
+            Includes:
+            - Updated HTML reports for all clients under `docs/clients/`
+          branch: automation/weekly-reports
+          base: main
+          delete-branch: true
+          add-paths: |
+            docs/**
