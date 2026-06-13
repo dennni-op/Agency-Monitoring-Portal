@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Reliability Monitoring - Weekly Reports for AI Agencies</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: #ffffff;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 30px;
+            font-size: 14px;
+            opacity: 0.9;
+            transition: opacity 0.2s;
+        }
+        
+        nav a:hover {
+            opacity: 1;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        section {
+            padding: 80px 0;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 120px 20px;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .hero .subheading {
+            font-size: 20px;
+            margin-bottom: 40px;
+            opacity: 0.95;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 14px 32px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: white;
+            color: #667eea;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .trust-strip {
+            background: rgba(255,255,255,0.1);
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-top: 30px;
+            display: inline-block;
+        }
+        
+        .problem-section {
+            background: #f8f9fa;
+            text-align: center;
+        }
+        
+        .problem-section h2 {
+            font-size: 36px;
+            margin-bottom: 30px;
+            color: #1a1a1a;
+        }
+        
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .problem-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+            text-align: left;
+        }
+        
+        .problem-card h3 {
+            font-size: 18px;
+            margin-bottom: 12px;
+            color: #667eea;
+        }
+        
+        .problem-card p {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.8;
+        }
+        
+        .solution-section {
+            text-align: center;
+        }
+        
+        .solution-section h2 {
+            font-size: 36px;
+            margin-bottom: 30px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .feature-card {
+            text-align: left;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+        }
+        
+        .feature-card .icon {
+            font-size: 32px;
+            margin-bottom: 16px;
+            display: inline-block;
+        }
+        
+        .feature-card h3 {
+            font-size: 18px;
+            margin-bottom: 12px;
+            color: #1a1a1a;
+        }
+        
+        .feature-card p {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.8;
+        }
+        
+        .how-it-works {
+            text-align: center;
+        }
+        
+        .how-it-works h2 {
+            font-size: 36px;
+            margin-bottom: 50px;
+        }
+        
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .step {
+            position: relative;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border-top: 4px solid #667eea;
+        }
+        
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        
+        .step h3 {
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+        
+        .step p {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .pricing-section {
+            background: #f8f9fa;
+            text-align: center;
+        }
+        
+        .pricing-section h2 {
+            font-size: 36px;
+            margin-bottom: 50px;
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .pricing-card {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: left;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .pricing-card:hover {
+            border-color: #667eea;
+            transform: translateY(-8px);
+            box-shadow: 0 16px 32px rgba(102, 126, 234, 0.15);
+        }
+        
+        .pricing-card.featured {
+            border-color: #667eea;
+            box-shadow: 0 16px 32px rgba(102, 126, 234, 0.15);
+            transform: scale(1.05);
+        }
+        
+        .pricing-card .badge {
+            position: absolute;
+            top: -12px;
+            right: 20px;
+            background: #667eea;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .pricing-card h3 {
+            font-size: 22px;
+            margin-bottom: 12px;
+            color: #1a1a1a;
+        }
+        
+        .pricing-card .description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 24px;
+        }
+        
+        .price {
+            font-size: 36px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+        
+        .price-unit {
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 24px;
+        }
+        
+        .pricing-card ul {
+            list-style: none;
+            margin-bottom: 32px;
+        }
+        
+        .pricing-card li {
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+            color: #333;
+            display: flex;
+            align-items: center;
+        }
+        
+        .pricing-card li:before {
+            content: "✓";
+            color: #667eea;
+            font-weight: 700;
+            margin-right: 12px;
+            font-size: 16px;
+        }
+        
+        .pricing-card .btn-price {
+            width: 100%;
+            text-align: center;
+        }
+        
+        .who-section {
+            text-align: center;
+        }
+        
+        .who-section h2 {
+            font-size: 36px;
+            margin-bottom: 40px;
+        }
+        
+        .who-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        .who-card {
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 12px;
+            text-align: left;
+        }
+        
+        .who-card h3 {
+            font-size: 20px;
+            margin-bottom: 16px;
+            color: #667eea;
+        }
+        
+        .who-card p {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.8;
+        }
+        
+        .faq-section {
+            background: #f8f9fa;
+        }
+        
+        .faq-section h2 {
+            font-size: 36px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .faq-item {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+        }
+        
+        .faq-item h4 {
+            font-size: 16px;
+            margin-bottom: 12px;
+            color: #1a1a1a;
+        }
+        
+        .faq-item p {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.8;
+        }
+        
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 80px 20px;
+        }
+        
+        .cta-section h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        
+        .cta-section p {
+            font-size: 18px;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+        
+        footer {
+            background: #1a1a1a;
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+            
+            .hero .subheading {
+                font-size: 18px;
+            }
+            
+            section h2 {
+                font-size: 28px !important;
+            }
+            
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+            
+            .faq-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            nav a {
+                margin-left: 15px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">AI Reliability</div>
+            <div>
+                <a href="#pricing">Pricing</a>
+                <a href="#how">How It Works</a>
+                <a href="#faq">FAQ</a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>AI Reliability Reports for Your Agency</h1>
+            <p class="subheading">Track uptime, latency, and provider performance across OpenAI, Anthropic, and Gemini. Then turn that data into clean weekly reports for your team or your clients.</p>
+            <div class="cta-buttons">
+                <button class="btn btn-primary">Get a Sample Report</button>
+                <button class="btn btn-secondary">Book a 15-Min Audit</button>
+            </div>
+            <div class="trust-strip">
+                ✓ Built for AI agencies, product teams, and consultancies that need reliability visibility fast
+            </div>
+        </div>
+    </section>
+
+    <section class="problem-section">
+        <div class="container">
+            <h2>Most teams using LLM APIs are still operating blind</h2>
+            <p style="font-size: 16px; color: #666; max-width: 700px; margin: 0 auto 40px;">If your product depends on external AI providers, small reliability issues turn into user complaints, slow support cycles, and hard conversations with clients.</p>
+            
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <h3>❌ No Weekly Visibility</h3>
+                    <p>No clear weekly view of provider uptime and latency trends</p>
+                </div>
+                <div class="problem-card">
+                    <h3>❌ Manual Comparisons</h3>
+                    <p>No simple way to compare OpenAI, Anthropic, and Google over time</p>
+                </div>
+                <div class="problem-card">
+                    <h3>❌ Client Communication Gap</h3>
+                    <p>No client-ready reporting for agencies running AI features on behalf of others</p>
+                </div>
+                <div class="problem-card">
+                    <h3>❌ Slow Incident Response</h3>
+                    <p>No lightweight system for catching degradation before it becomes a delivery issue</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="solution-section">
+        <div class="container">
+            <h2>A lightweight AI reliability layer you can start using in days</h2>
+            <p style="font-size: 16px; color: #666; max-width: 700px; margin: 0 auto 40px;">This system runs scheduled checks against your model providers, stores results, and publishes clear weekly reliability reports. Designed for teams who need operational visibility fast, without committing to a full observability rebuild.</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="icon">📊</div>
+                    <h3>Multi-Provider Monitoring</h3>
+                    <p>Monitor OpenAI, Anthropic, and Google model availability and response latency</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">✅</div>
+                    <h3>Reliability Tracking</h3>
+                    <p>Track pass/fail outcomes against defined latency thresholds</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">📄</div>
+                    <h3>Weekly Reporting</h3>
+                    <p>Generate weekly reliability summaries automatically</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🎨</div>
+                    <h3>White-Label Ready</h3>
+                    <p>Publish branded report pages for internal stakeholders or end clients</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">👥</div>
+                    <h3>Multi-Client Support</h3>
+                    <p>Support multiple client environments for agencies and consultancies</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">⚡</div>
+                    <h3>Fast Deployment</h3>
+                    <p>Deploy with simple scripts and scheduled workflows</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="how-it-works" id="how">
+        <div class="container">
+            <h2>From blind spots to weekly reliability visibility</h2>
+            
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Connect</h3>
+                    <p>We connect monitoring checks to the providers and models you already use</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Monitor</h3>
+                    <p>Scheduled checks record uptime, latency, and failed responses into your database</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Report</h3>
+                    <p>A branded weekly report shows trends, provider comparisons, and recommendations</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="who-section">
+        <div class="container">
+            <h2>Best fit for teams already shipping AI features</h2>
+            
+            <div class="who-grid">
+                <div class="who-card">
+                    <h3>🏢 AI Agencies</h3>
+                    <p>Managing multiple client deployments and need white-label reliability reporting to prove value</p>
+                </div>
+                <div class="who-card">
+                    <h3>🚀 SaaS Teams</h3>
+                    <p>Using multiple LLM providers in production and need weekly operational visibility</p>
+                </div>
+                <div class="who-card">
+                    <h3>🛠 Dev Consultancies</h3>
+                    <p>Building AI features for clients and need client-facing reliability reporting</p>
+                </div>
+                <div class="who-card">
+                    <h3>📈 Product Teams</h3>
+                    <p>Choosing between providers based on real operational data and reliability trends</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pricing-section" id="pricing">
+        <div class="container">
+            <h2>Start with a paid pilot</h2>
+            <p style="font-size: 16px; color: #666; max-width: 700px; margin: 0 auto 40px;">The easiest way to evaluate fit is a short pilot. You get setup, live monitoring, and your first report without a long-term commitment.</p>
+            
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>Paid Pilot</h3>
+                    <p class="description">2-week trial for one environment</p>
+                    <div class="price">$350</div>
+                    <div class="price-unit">one-time</div>
+                    <ul>
+                        <li>Setup and configuration</li>
+                        <li>Up to 3 providers</li>
+                        <li>Weekly report generation</li>
+                        <li>Review call included</li>
+                        <li>Convert to monthly plan</li>
+                    </ul>
+                    <button class="btn btn-primary btn-price">Start Pilot</button>
+                </div>
+
+                <div class="pricing-card featured">
+                    <div class="badge">MOST POPULAR</div>
+                    <h3>Managed Monitoring</h3>
+                    <p class="description">Ongoing monitoring + reporting</p>
+                    <div class="price">$249</div>
+                    <div class="price-unit">per month</div>
+                    <ul>
+                        <li>One product or environment</li>
+                        <li>Multi-provider support</li>
+                        <li>Weekly reports</li>
+                        <li>Trend analysis</li>
+                        <li>Email support</li>
+                    </ul>
+                    <button class="btn btn-primary btn-price">Get Started</button>
+                </div>
+
+                <div class="pricing-card">
+                    <h3>Agency White-Label</h3>
+                    <p class="description">Multi-client reporting at scale</p>
+                    <div class="price">$699</div>
+                    <div class="price-unit">per month</div>
+                    <ul>
+                        <li>Up to 3 client environments</li>
+                        <li>Branded client portals</li>
+                        <li>Multi-client onboarding</li>
+                        <li>Priority support</li>
+                        <li>$149/env for each additional client</li>
+                    </ul>
+                    <button class="btn btn-primary btn-price">Contact Sales</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq-section" id="faq">
+        <div class="container">
+            <h2>Frequently Asked Questions</h2>
+            
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h4>Is this a full observability platform?</h4>
+                    <p>No. It's a focused reliability reporting layer for AI provider uptime, latency, and weekly operational visibility. It sits alongside your existing stack without requiring architectural changes.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h4>Do I need to change my product architecture?</h4>
+                    <p>No. The system monitors the providers and models you already use. It runs scheduled health checks independently and does not require integration into your app code.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h4>Can this work for agencies with multiple clients?</h4>
+                    <p>Yes. The multi-client structure is one of our strongest use cases, especially for white-label weekly reporting and per-client isolation.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h4>How fast can this be live?</h4>
+                    <p>Most pilots can be live within 2-4 business days once you provide provider API keys and database access.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h4>What if I only use one provider?</h4>
+                    <p>This works well for single-provider setups too. Many teams use this to track a single provider's reliability trends over time, catch degradation early, and prove uptime to clients.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h4>Can I see a sample report before committing?</h4>
+                    <p>Absolutely. We can share example weekly reports and walk you through how your specific provider mix would be tracked and reported.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h4>What's included in the pilot?</h4>
+                    <p>Setup, configuration for your providers, two weeks of live monitoring, your first weekly report, and a review call to discuss findings and next steps.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h4>Can I cancel anytime after the pilot?</h4>
+                    <p>Yes. After the pilot, you can choose to continue with a monthly plan or stop at any time. No long-term contracts.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>If your AI product depends on external model providers, reliability should not be guesswork</h2>
+            <p>Start with a short pilot and get your first reliability report within days.</p>
+            <div class="cta-buttons">
+                <button class="btn btn-primary">See a Sample Report</button>
+                <button class="btn btn-secondary">Schedule a Call</button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 AI Reliability Monitoring. Built for agencies and teams shipping AI features.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Simple CTA button handlers
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const text = this.textContent.trim();
+                if (text.includes('Sample Report')) {
+                    alert('Email me at dennisquansah05@gmail.com and I\'ll send a sample report.');
+                } else if (text.includes('Schedule') || text.includes('Audit')) {
+                    window.open('https://calendly.com/dennisquansah05/30min', '_blank');
+                } else if (text.includes('Pilot') || text.includes('Started') || text.includes('Sales')) {
+                    window.location.href = 'mailto:dennisquansah05@gmail.com?subject=AI%20Reliability%20Monitoring%20-%20Inquiry';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
