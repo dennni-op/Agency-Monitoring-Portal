@@ -4,3 +4,9 @@ __pycache__/
 .venv/
 venv/
 *.sqlite3
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example
