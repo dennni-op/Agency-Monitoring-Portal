@@ -14,18 +14,18 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
             line-height: 1.6;
-            color: #0f172a;
+            color: #0d0d0d;
             background: #ffffff;
         }
         
         header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px 0;
+            background: #ffffff;
+            color: #0d0d0d;
+            padding: 16px 0;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-bottom: 1px solid #f0f0f0;
         }
         
         nav {
@@ -38,22 +38,26 @@
         }
         
         .logo {
-            font-size: 24px;
+            font-size: 18px;
             font-weight: 700;
-            letter-spacing: -1px;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         nav a {
-            color: white;
+            color: #666;
             text-decoration: none;
-            margin-left: 30px;
+            margin-left: 32px;
             font-size: 14px;
-            opacity: 0.9;
-            transition: opacity 0.2s;
+            font-weight: 500;
+            transition: color 0.2s;
         }
         
         nav a:hover {
-            opacity: 1;
+            color: #667eea;
         }
         
         .container {
@@ -63,45 +67,50 @@
         }
         
         section {
-            padding: 80px 0;
+            padding: 100px 0;
         }
         
+        /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: #ffffff;
+            color: #0d0d0d;
             text-align: center;
-            padding: 120px 20px;
+            padding: 140px 20px 100px;
         }
         
         .hero h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
+            font-size: 56px;
+            margin-bottom: 24px;
             font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -1px;
         }
         
         .hero .subheading {
-            font-size: 20px;
-            margin-bottom: 40px;
-            opacity: 0.95;
-            max-width: 700px;
+            font-size: 18px;
+            margin-bottom: 48px;
+            color: #666;
+            max-width: 720px;
             margin-left: auto;
             margin-right: auto;
+            line-height: 1.7;
+            font-weight: 400;
         }
         
         .cta-buttons {
             display: flex;
             gap: 16px;
             justify-content: center;
-            margin-bottom: 40px;
+            margin-bottom: 48px;
             flex-wrap: wrap;
         }
         
         .btn {
-            padding: 14px 32px;
-            font-size: 16px;
+            padding: 12px 28px;
+            font-size: 15px;
             font-weight: 600;
             border: none;
-            border-radius: 8px;
+            border-radius: 6px;
             cursor: pointer;
             transition: all 0.3s;
             text-decoration: none;
@@ -109,99 +118,136 @@
         }
         
         .btn-primary {
-            background: white;
-            color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
         }
         
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            box-shadow: 0 12px 24px rgba(102, 126, 234, 0.3);
         }
         
         .btn-secondary {
             background: transparent;
-            color: white;
-            border: 2px solid white;
+            color: #667eea;
+            border: 1.5px solid #667eea;
         }
         
         .btn-secondary:hover {
-            background: rgba(255,255,255,0.1);
+            background: #f0f4ff;
         }
         
         .trust-strip {
-            background: rgba(255,255,255,0.1);
-            padding: 16px;
+            background: #f8f9fa;
+            padding: 20px 24px;
             border-radius: 8px;
-            font-size: 14px;
-            margin-top: 30px;
+            font-size: 13px;
+            color: #666;
+            margin-top: 40px;
             display: inline-block;
+            font-weight: 500;
         }
         
+        /* Problem Section */
         .problem-section {
-            background: #f8f9fa;
+            background: #ffffff;
             text-align: center;
         }
         
         .problem-section h2 {
-            font-size: 36px;
-            margin-bottom: 30px;
-            color: #1a1a1a;
+            font-size: 44px;
+            margin-bottom: 20px;
+            color: #0d0d0d;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        
+        .problem-section > .container > p {
+            font-size: 16px;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto 60px;
+            line-height: 1.7;
         }
         
         .problem-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
             margin-top: 40px;
         }
         
         .problem-card {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            border-left: 4px solid #667eea;
+            background: #f8f9fa;
+            padding: 32px;
+            border-radius: 8px;
+            border: 1px solid #e8e8e8;
             text-align: left;
+            transition: all 0.2s;
+        }
+        
+        .problem-card:hover {
+            border-color: #667eea;
+            background: #ffffff;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
         }
         
         .problem-card h3 {
-            font-size: 18px;
+            font-size: 16px;
             margin-bottom: 12px;
-            color: #667eea;
+            color: #0d0d0d;
+            font-weight: 600;
         }
         
         .problem-card p {
             font-size: 14px;
             color: #666;
-            line-height: 1.8;
+            line-height: 1.7;
         }
         
+        /* Solution Section */
         .solution-section {
             text-align: center;
+            background: #ffffff;
         }
         
         .solution-section h2 {
-            font-size: 36px;
-            margin-bottom: 30px;
+            font-size: 44px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            line-height: 1.2;
+            color: #0d0d0d;
+        }
+        
+        .solution-section > .container > p {
+            font-size: 16px;
+            color: #666;
+            max-width: 750px;
+            margin: 0 auto 60px;
+            line-height: 1.7;
         }
         
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
             margin-top: 40px;
         }
         
         .feature-card {
             text-align: left;
-            padding: 30px;
+            padding: 32px;
             background: #f8f9fa;
-            border-radius: 12px;
-            transition: transform 0.2s, box-shadow 0.2s;
+            border-radius: 8px;
+            border: 1px solid #e8e8e8;
+            transition: all 0.2s;
         }
         
         .feature-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
+            border-color: #667eea;
+            background: #ffffff;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.12);
         }
         
         .feature-card .icon {
@@ -211,103 +257,171 @@
         }
         
         .feature-card h3 {
-            font-size: 18px;
+            font-size: 16px;
             margin-bottom: 12px;
-            color: #1a1a1a;
+            color: #0d0d0d;
+            font-weight: 600;
         }
         
         .feature-card p {
             font-size: 14px;
             color: #666;
-            line-height: 1.8;
+            line-height: 1.7;
         }
         
+        /* How It Works */
         .how-it-works {
             text-align: center;
+            background: #ffffff;
         }
         
         .how-it-works h2 {
-            font-size: 36px;
-            margin-bottom: 50px;
+            font-size: 44px;
+            margin-bottom: 60px;
+            font-weight: 700;
+            line-height: 1.2;
+            color: #0d0d0d;
         }
         
         .steps {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 24px;
             max-width: 900px;
             margin: 0 auto;
         }
         
         .step {
             position: relative;
-            padding: 30px;
+            padding: 32px 24px;
             background: #f8f9fa;
-            border-radius: 12px;
-            border-top: 4px solid #667eea;
+            border-radius: 8px;
+            border: 1px solid #e8e8e8;
         }
         
         .step-number {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 48px;
-            height: 48px;
-            background: #667eea;
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border-radius: 50%;
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 700;
             margin-bottom: 16px;
         }
         
         .step h3 {
-            font-size: 18px;
+            font-size: 16px;
             margin-bottom: 12px;
+            font-weight: 600;
+            color: #0d0d0d;
         }
         
         .step p {
             font-size: 14px;
             color: #666;
+            line-height: 1.7;
         }
         
-        .pricing-section {
+        /* Who Section */
+        .who-section {
+            text-align: center;
+            background: #ffffff;
+        }
+        
+        .who-section h2 {
+            font-size: 44px;
+            margin-bottom: 60px;
+            font-weight: 700;
+            line-height: 1.2;
+            color: #0d0d0d;
+        }
+        
+        .who-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+        }
+        
+        .who-card {
             background: #f8f9fa;
+            padding: 32px;
+            border-radius: 8px;
+            border: 1px solid #e8e8e8;
+            text-align: left;
+            transition: all 0.2s;
+        }
+        
+        .who-card:hover {
+            border-color: #667eea;
+            background: #ffffff;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
+        }
+        
+        .who-card h3 {
+            font-size: 16px;
+            margin-bottom: 16px;
+            color: #0d0d0d;
+            font-weight: 600;
+        }
+        
+        .who-card p {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.7;
+        }
+        
+        /* Pricing Section */
+        .pricing-section {
+            background: #ffffff;
             text-align: center;
         }
         
         .pricing-section h2 {
-            font-size: 36px;
-            margin-bottom: 50px;
+            font-size: 44px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            line-height: 1.2;
+            color: #0d0d0d;
+        }
+        
+        .pricing-section > .container > p {
+            font-size: 16px;
+            color: #666;
+            max-width: 750px;
+            margin: 0 auto 60px;
+            line-height: 1.7;
         }
         
         .pricing-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
+            gap: 24px;
             margin-bottom: 40px;
         }
         
         .pricing-card {
-            background: white;
-            border-radius: 12px;
+            background: #ffffff;
+            border-radius: 8px;
             padding: 40px;
             text-align: left;
-            border: 2px solid #e0e0e0;
+            border: 1px solid #e8e8e8;
             transition: all 0.3s;
             position: relative;
         }
         
         .pricing-card:hover {
             border-color: #667eea;
-            transform: translateY(-8px);
-            box-shadow: 0 16px 32px rgba(102, 126, 234, 0.15);
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.15);
         }
         
         .pricing-card.featured {
             border-color: #667eea;
-            box-shadow: 0 16px 32px rgba(102, 126, 234, 0.15);
-            transform: scale(1.05);
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.15);
+            transform: scale(1.02);
         }
         
         .pricing-card .badge {
@@ -318,33 +432,38 @@
             color: white;
             padding: 6px 14px;
             border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
         
         .pricing-card h3 {
-            font-size: 22px;
-            margin-bottom: 12px;
-            color: #1a1a1a;
+            font-size: 20px;
+            margin-bottom: 8px;
+            color: #0d0d0d;
+            font-weight: 600;
         }
         
         .pricing-card .description {
             font-size: 14px;
             color: #666;
-            margin-bottom: 24px;
+            margin-bottom: 28px;
+            line-height: 1.6;
         }
         
         .price {
-            font-size: 36px;
+            font-size: 40px;
             font-weight: 700;
             color: #667eea;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
+            line-height: 1;
         }
         
         .price-unit {
-            font-size: 14px;
+            font-size: 13px;
             color: #999;
-            margin-bottom: 24px;
+            margin-bottom: 28px;
+            font-weight: 500;
         }
         
         .pricing-card ul {
@@ -359,6 +478,11 @@
             color: #333;
             display: flex;
             align-items: center;
+            line-height: 1.5;
+        }
+        
+        .pricing-card li:last-child {
+            border-bottom: none;
         }
         
         .pricing-card li:before {
@@ -374,113 +498,92 @@
             text-align: center;
         }
         
-        .who-section {
-            text-align: center;
-        }
-        
-        .who-section h2 {
-            font-size: 36px;
-            margin-bottom: 40px;
-        }
-        
-        .who-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-        }
-        
-        .who-card {
-            background: #f8f9fa;
-            padding: 40px;
-            border-radius: 12px;
-            text-align: left;
-        }
-        
-        .who-card h3 {
-            font-size: 20px;
-            margin-bottom: 16px;
-            color: #667eea;
-        }
-        
-        .who-card p {
-            font-size: 14px;
-            color: #666;
-            line-height: 1.8;
-        }
-        
+        /* FAQ Section */
         .faq-section {
-            background: #f8f9fa;
+            background: #ffffff;
         }
         
         .faq-section h2 {
-            font-size: 36px;
-            margin-bottom: 40px;
+            font-size: 44px;
+            margin-bottom: 60px;
             text-align: center;
+            font-weight: 700;
+            line-height: 1.2;
+            color: #0d0d0d;
         }
         
         .faq-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+            gap: 28px;
             max-width: 1000px;
             margin: 0 auto;
         }
         
         .faq-item {
-            background: white;
-            padding: 24px;
-            border-radius: 12px;
+            background: #f8f9fa;
+            padding: 28px;
+            border-radius: 8px;
+            border: 1px solid #e8e8e8;
         }
         
         .faq-item h4 {
-            font-size: 16px;
+            font-size: 15px;
             margin-bottom: 12px;
-            color: #1a1a1a;
+            color: #0d0d0d;
+            font-weight: 600;
         }
         
         .faq-item p {
             font-size: 14px;
             color: #666;
-            line-height: 1.8;
+            line-height: 1.7;
         }
         
+        /* CTA Section */
         .cta-section {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             text-align: center;
-            padding: 80px 20px;
+            padding: 100px 20px;
         }
         
         .cta-section h2 {
-            font-size: 36px;
-            margin-bottom: 20px;
+            font-size: 44px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 24px;
         }
         
         .cta-section p {
-            font-size: 18px;
-            margin-bottom: 40px;
+            font-size: 16px;
+            margin-bottom: 48px;
             opacity: 0.95;
+            line-height: 1.7;
         }
         
+        /* Footer */
         footer {
-            background: #1a1a1a;
+            background: #0d0d0d;
             color: white;
             text-align: center;
             padding: 40px 20px;
-            font-size: 14px;
+            font-size: 13px;
+            color: #999;
         }
         
+        /* Responsive */
         @media (max-width: 768px) {
             .hero h1 {
-                font-size: 32px;
+                font-size: 36px;
             }
             
             .hero .subheading {
-                font-size: 18px;
+                font-size: 16px;
             }
             
             section h2 {
-                font-size: 28px !important;
+                font-size: 32px !important;
             }
             
             .pricing-card.featured {
@@ -492,8 +595,17 @@
             }
             
             nav a {
-                margin-left: 15px;
-                font-size: 12px;
+                margin-left: 16px;
+                font-size: 13px;
+            }
+            
+            .problem-grid, .features-grid, .who-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .btn {
+                padding: 11px 24px;
+                font-size: 14px;
             }
         }
     </style>
@@ -501,7 +613,7 @@
 <body>
     <header>
         <nav class="container">
-            <div class="logo">AI Reliability</div>
+            <div class="logo">GovernableHQ</div>
             <div>
                 <a href="#pricing">Pricing</a>
                 <a href="#how">How It Works</a>
@@ -512,22 +624,22 @@
 
     <section class="hero">
         <div class="container">
-            <h1>AI Reliability Reports for Your Agency</h1>
-            <p class="subheading">Track uptime, latency, and provider performance across OpenAI, Anthropic, and Gemini. Then turn that data into clean weekly reports for your team or your clients.</p>
+            <h1>AI Reliability Monitoring for Agencies</h1>
+            <p class="subheading">Track uptime, latency, and provider performance across OpenAI, Anthropic, and Gemini. Turn that data into clean weekly reports for your team or clients.</p>
             <div class="cta-buttons">
                 <button class="btn btn-primary">Get a Sample Report</button>
                 <button class="btn btn-secondary">Book a 15-Min Audit</button>
             </div>
             <div class="trust-strip">
-                ✓ Built for AI agencies, product teams, and consultancies that need reliability visibility fast
+                ✓ Built for AI agencies, product teams, and consultancies
             </div>
         </div>
     </section>
 
     <section class="problem-section">
         <div class="container">
-            <h2>Most teams using LLM APIs are still operating blind</h2>
-            <p style="font-size: 16px; color: #666; max-width: 700px; margin: 0 auto 40px;">If your product depends on external AI providers, small reliability issues turn into user complaints, slow support cycles, and hard conversations with clients.</p>
+            <h2>Most teams using LLM APIs are operating blind</h2>
+            <p>If your product depends on external AI providers, small reliability issues turn into user complaints, slow support cycles, and hard conversations with clients.</p>
             
             <div class="problem-grid">
                 <div class="problem-card">
@@ -536,15 +648,15 @@
                 </div>
                 <div class="problem-card">
                     <h3>❌ Manual Comparisons</h3>
-                    <p>No simple way to compare OpenAI, Anthropic, and Google over time</p>
+                    <p>No simple way to compare OpenAI, Anthropic, and Google</p>
                 </div>
                 <div class="problem-card">
                     <h3>❌ Client Communication Gap</h3>
-                    <p>No client-ready reporting for agencies running AI features on behalf of others</p>
+                    <p>No client-ready reporting for multi-tenant AI features</p>
                 </div>
                 <div class="problem-card">
                     <h3>❌ Slow Incident Response</h3>
-                    <p>No lightweight system for catching degradation before it becomes a delivery issue</p>
+                    <p>No system for catching degradation before it hits customers</p>
                 </div>
             </div>
         </div>
@@ -552,19 +664,19 @@
 
     <section class="solution-section">
         <div class="container">
-            <h2>A lightweight AI reliability layer you can start using in days</h2>
-            <p style="font-size: 16px; color: #666; max-width: 700px; margin: 0 auto 40px;">This system runs scheduled checks against your model providers, stores results, and publishes clear weekly reliability reports. Designed for teams who need operational visibility fast, without committing to a full observability rebuild.</p>
+            <h2>A lightweight AI reliability layer in days, not months</h2>
+            <p>Scheduled checks against your model providers, stored in your database, delivered as clean weekly reliability reports. Designed for teams who need operational visibility fast.</p>
             
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="icon">📊</div>
                     <h3>Multi-Provider Monitoring</h3>
-                    <p>Monitor OpenAI, Anthropic, and Google model availability and response latency</p>
+                    <p>Monitor OpenAI, Anthropic, and Google model availability and latency</p>
                 </div>
                 <div class="feature-card">
                     <div class="icon">✅</div>
                     <h3>Reliability Tracking</h3>
-                    <p>Track pass/fail outcomes against defined latency thresholds</p>
+                    <p>Track pass/fail outcomes against your latency thresholds</p>
                 </div>
                 <div class="feature-card">
                     <div class="icon">📄</div>
@@ -574,12 +686,12 @@
                 <div class="feature-card">
                     <div class="icon">🎨</div>
                     <h3>White-Label Ready</h3>
-                    <p>Publish branded report pages for internal stakeholders or end clients</p>
+                    <p>Publish branded report pages for stakeholders and clients</p>
                 </div>
                 <div class="feature-card">
                     <div class="icon">👥</div>
                     <h3>Multi-Client Support</h3>
-                    <p>Support multiple client environments for agencies and consultancies</p>
+                    <p>Manage multiple client environments with tenant isolation</p>
                 </div>
                 <div class="feature-card">
                     <div class="icon">⚡</div>
@@ -592,23 +704,23 @@
 
     <section class="how-it-works" id="how">
         <div class="container">
-            <h2>From blind spots to weekly reliability visibility</h2>
+            <h2>From blind spots to visibility in 3 steps</h2>
             
             <div class="steps">
                 <div class="step">
                     <div class="step-number">1</div>
                     <h3>Connect</h3>
-                    <p>We connect monitoring checks to the providers and models you already use</p>
+                    <p>We connect monitoring checks to your providers and models</p>
                 </div>
                 <div class="step">
                     <div class="step-number">2</div>
                     <h3>Monitor</h3>
-                    <p>Scheduled checks record uptime, latency, and failed responses into your database</p>
+                    <p>Scheduled checks record uptime, latency, and failures</p>
                 </div>
                 <div class="step">
                     <div class="step-number">3</div>
                     <h3>Report</h3>
-                    <p>A branded weekly report shows trends, provider comparisons, and recommendations</p>
+                    <p>Weekly reports show trends and recommendations</p>
                 </div>
             </div>
         </div>
@@ -621,7 +733,7 @@
             <div class="who-grid">
                 <div class="who-card">
                     <h3>🏢 AI Agencies</h3>
-                    <p>Managing multiple client deployments and need white-label reliability reporting to prove value</p>
+                    <p>Managing multiple client deployments and need white-label reporting to prove value and reduce risk</p>
                 </div>
                 <div class="who-card">
                     <h3>🚀 SaaS Teams</h3>
@@ -642,7 +754,7 @@
     <section class="pricing-section" id="pricing">
         <div class="container">
             <h2>Start with a paid pilot</h2>
-            <p style="font-size: 16px; color: #666; max-width: 700px; margin: 0 auto 40px;">The easiest way to evaluate fit is a short pilot. You get setup, live monitoring, and your first report without a long-term commitment.</p>
+            <p>The easiest way to evaluate fit is a short pilot. You get setup, live monitoring, and your first report without long-term commitment.</p>
             
             <div class="pricing-grid">
                 <div class="pricing-card">
@@ -701,27 +813,27 @@
             <div class="faq-grid">
                 <div class="faq-item">
                     <h4>Is this a full observability platform?</h4>
-                    <p>No. It's a focused reliability reporting layer for AI provider uptime, latency, and weekly operational visibility. It sits alongside your existing stack without requiring architectural changes.</p>
+                    <p>No. It's a focused reliability reporting layer for AI provider uptime and latency. It sits alongside your existing stack without requiring architectural changes.</p>
                 </div>
                 
                 <div class="faq-item">
                     <h4>Do I need to change my product architecture?</h4>
-                    <p>No. The system monitors the providers and models you already use. It runs scheduled health checks independently and does not require integration into your app code.</p>
+                    <p>No. The system monitors the providers and models you already use. It runs scheduled health checks independently with no code integration required.</p>
                 </div>
                 
                 <div class="faq-item">
                     <h4>Can this work for agencies with multiple clients?</h4>
-                    <p>Yes. The multi-client structure is one of our strongest use cases, especially for white-label weekly reporting and per-client isolation.</p>
+                    <p>Yes. Multi-client isolation and white-label reporting is one of our strongest use cases for agencies managing AI features for multiple customers.</p>
                 </div>
                 
                 <div class="faq-item">
                     <h4>How fast can this be live?</h4>
-                    <p>Most pilots can be live within 2-4 business days once you provide provider API keys and database access.</p>
+                    <p>Most pilots go live within 2-4 business days once you provide provider API keys and database access.</p>
                 </div>
                 
                 <div class="faq-item">
                     <h4>What if I only use one provider?</h4>
-                    <p>This works well for single-provider setups too. Many teams use this to track a single provider's reliability trends over time, catch degradation early, and prove uptime to clients.</p>
+                    <p>This works well for single-provider setups. Many teams use it to track reliability trends, catch degradation early, and prove uptime to clients.</p>
                 </div>
                 
                 <div class="faq-item">
@@ -731,12 +843,12 @@
                 
                 <div class="faq-item">
                     <h4>What's included in the pilot?</h4>
-                    <p>Setup, configuration for your providers, two weeks of live monitoring, your first weekly report, and a review call to discuss findings and next steps.</p>
+                    <p>Setup, configuration for your providers, two weeks of live monitoring, your first weekly report, and a review call to discuss findings.</p>
                 </div>
                 
                 <div class="faq-item">
                     <h4>Can I cancel anytime after the pilot?</h4>
-                    <p>Yes. After the pilot, you can choose to continue with a monthly plan or stop at any time. No long-term contracts.</p>
+                    <p>Yes. After the pilot, you can continue with a monthly plan or stop at any time. No long-term contracts.</p>
                 </div>
             </div>
         </div>
@@ -755,21 +867,20 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2026 AI Reliability Monitoring. Built for agencies and teams shipping AI features.</p>
+            <p>&copy; 2026 GovernableHQ. AI reliability monitoring for agencies and teams shipping AI features.</p>
         </div>
     </footer>
 
     <script>
-        // Simple CTA button handlers
         document.querySelectorAll('.btn').forEach(button => {
             button.addEventListener('click', function() {
                 const text = this.textContent.trim();
                 if (text.includes('Sample Report')) {
-                    alert('Email me at dennisquansah05@gmail.com and I\'ll send a sample report.');
+                    alert('Email dennisquansah05@gmail.com and I\'ll send a sample report.');
                 } else if (text.includes('Schedule') || text.includes('Audit')) {
                     window.open('https://calendly.com/dennisquansah05/30min', '_blank');
                 } else if (text.includes('Pilot') || text.includes('Started') || text.includes('Sales')) {
-                    window.location.href = 'mailto:dennisquansah05@gmail.com?subject=AI%20Reliability%20Monitoring%20-%20Inquiry';
+                    window.location.href = 'mailto:dennisquansah05@gmail.com?subject=GovernableHQ%20-%20Inquiry';
                 }
             });
         });
