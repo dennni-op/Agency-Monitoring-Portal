@@ -4,6 +4,12 @@ from pathlib import Path
 
 from sqlalchemy import Integer, func
 
+from app.analytics import (
+    make_operational_recommendation,
+    pick_best_provider,
+    pick_biggest_regression,
+    trend_symbol,
+)
 from app.client_registry import get_client
 from app.database import get_session_factory
 from app.models import ApiCheck, init_db
@@ -17,6 +23,8 @@ def _query_stats(db, start, end):
             func.count(ApiCheck.id).label("total"),
             func.sum(func.cast(ApiCheck.success, Integer)).label("successful"),
             func.avg(ApiCheck.latency_ms).label("avg_latency"),
+            func.min(ApiCheck.latency_ms).label("min_latency"),
+            func.max(ApiCheck.latency_ms).label("max_latency"),
         )
         .filter(ApiCheck.timestamp >= start, ApiCheck.timestamp < end)
         .group_by(ApiCheck.provider)
@@ -33,6 +41,8 @@ def _query_stats(db, start, end):
             "successful": successful,
             "uptime": (successful / total * 100.0) if total else 0.0,
             "avg_latency": float(r.avg_latency) if r.avg_latency is not None else None,
+            "min_latency": float(r.min_latency) if r.min_latency is not None else None,
+            "max_latency": float(r.max_latency) if r.max_latency is not None else None,
         }
     return data
 
@@ -56,7 +66,10 @@ def generate_weekly_report(client_slug: str):
     try:
         end = datetime.utcnow()
         start = end - timedelta(days=7)
-        data = _query_stats(db, start, end)
+        prev_end = start
+        prev_start = prev_end - timedelta(days=7)
+        current = _query_stats(db, start, end)
+        previous = _query_stats(db, prev_start, prev_end)
     finally:
         db.close()
 
@@ -68,11 +81,35 @@ def generate_weekly_report(client_slug: str):
     out_file = reports_dir / filename
 
     rows = []
-    for provider in sorted(data.keys()):
-        s = data[provider]
+    for provider in sorted(current.keys()):
+        c = current[provider]
+        p = previous.get(provider, {})
+        uptime_trend = trend_symbol(c["uptime"], p.get("uptime"), lower_is_better=False)
+        latency_trend = trend_symbol(c["avg_latency"], p.get("avg_latency"), lower_is_better=True)
         rows.append(
-            f"<tr><td>{escape(provider)}</td><td>{s['total']}</td><td>{s['successful']}</td><td>{_fmt_pct(s['uptime'])}</td><td>{_fmt_ms(s['avg_latency'])}</td></tr>"
+            "<tr>"
+            f"<td>{escape(provider)}</td>"
+            f"<td>{c['total']}</td>"
+            f"<td>{c['successful']}</td>"
+            f"<td>{_fmt_pct(c['uptime'])}</td>"
+            f"<td>{_fmt_ms(c['avg_latency'])}</td>"
+            f"<td>{_fmt_ms(c['min_latency'])}</td>"
+            f"<td>{_fmt_ms(c['max_latency'])}</td>"
+            f"<td>{escape(uptime_trend)}</td>"
+            f"<td>{escape(latency_trend)}</td>"
+            "</tr>"
         )
+
+    total_checks = sum(s["total"] for s in current.values())
+    total_success = sum(s["successful"] for s in current.values())
+    overall_uptime = (total_success / total_checks * 100.0) if total_checks else 0.0
+
+    best = pick_best_provider(current)
+    regression = pick_biggest_regression(current, previous)
+    recommendation = make_operational_recommendation(best, regression)
+
+    best_text = best if best else "N/A"
+    regression_text = regression["text"] if regression else "No material regression detected"
 
     html = f"""<!doctype html>
 <html lang=\"en\"> 
@@ -81,19 +118,53 @@ def generate_weekly_report(client_slug: str):
   <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
   <title>{escape(client.name)} Weekly Reliability Report</title>
   <style>
-    body {{ font-family: -apple-system, Segoe UI, sans-serif; margin: 2rem auto; max-width: 960px; padding: 0 1rem; }}
-    table {{ width: 100%; border-collapse: collapse; }}
+    body {{ font-family: -apple-system, Segoe UI, sans-serif; margin: 2rem auto; max-width: 960px; padding: 0 1rem; line-height: 1.5; }}
+    h1, h2 {{ margin-bottom: 0.4rem; }}
+    .meta {{ color: #555; margin-bottom: 1rem; }}
+    .cards {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.75rem; margin: 1rem 0 1.25rem; }}
+    .card {{ border: 1px solid #ddd; border-radius: 8px; padding: 0.8rem; }}
+    .label {{ font-size: 0.85rem; color: #666; }}
+    .value {{ font-size: 1.1rem; font-weight: 600; }}
+    table {{ width: 100%; border-collapse: collapse; margin-top: 1rem; }}
     th, td {{ border: 1px solid #ddd; padding: 0.5rem; text-align: left; }}
     th {{ background: #f4f4f4; }}
+    .small {{ color: #666; font-size: 0.9rem; }}
   </style>
 </head>
 <body>
   <h1>{escape(client.name)} - Weekly Reliability Report</h1>
-  <p>Window: {start.strftime('%Y-%m-%d %H:%M:%S')} to {end.strftime('%Y-%m-%d %H:%M:%S')} UTC</p>
-  <table>
-    <thead><tr><th>Provider</th><th>Checks</th><th>Success</th><th>Uptime</th><th>Avg Latency</th></tr></thead>
-    <tbody>{''.join(rows) if rows else '<tr><td colspan="5">No data.</td></tr>'}</tbody>
-  </table>
+  <p class="meta">Window: {start.strftime('%Y-%m-%d %H:%M:%S')} to {end.strftime('%Y-%m-%d %H:%M:%S')} UTC</p>
+
+  <div class="cards">
+    <div class="card"><div class="label">Total checks</div><div class="value">{total_checks}</div></div>
+    <div class="card"><div class="label">Successful checks</div><div class="value">{total_success}</div></div>
+    <div class="card"><div class="label">Overall uptime</div><div class="value">{_fmt_pct(overall_uptime)}</div></div>
+    <div class="card"><div class="label">Best provider (week)</div><div class="value">{escape(best_text)}</div></div>
+  </div>
+
+  <section>
+    <h2>Executive Summary</h2>
+    <ul>
+      <li><strong>Best provider this week:</strong> {escape(best_text)}</li>
+      <li><strong>Biggest regression:</strong> {escape(regression_text)}</li>
+      <li><strong>Operational recommendation:</strong> {escape(recommendation)}</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Provider Breakdown</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Provider</th><th>Checks</th><th>Success</th><th>Uptime</th>
+          <th>Avg Latency</th><th>Min</th><th>Max</th>
+          <th>Uptime Trend</th><th>Latency Trend</th>
+        </tr>
+      </thead>
+      <tbody>{''.join(rows) if rows else '<tr><td colspan="9">No data.</td></tr>'}</tbody>
+    </table>
+    <p class="small">Trend compares this week vs the previous 7-day window. Uptime: higher is better. Latency: lower is better.</p>
+  </section>
 </body>
 </html>
 """

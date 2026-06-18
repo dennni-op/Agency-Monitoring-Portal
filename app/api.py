@@ -1,8 +1,10 @@
 import json
 import os
+import secrets
 from datetime import datetime, timedelta
 
-from fastapi import FastAPI, Header, HTTPException
+from fastapi import Depends, FastAPI, Header, HTTPException
+from fastapi.responses import HTMLResponse
 from pydantic import BaseModel, Field
 from sqlalchemy import case, func
 
@@ -11,6 +13,41 @@ from app.database import get_session_factory
 from app.models import ApiCheck, WorkflowOutcome, WorkflowRun, WorkflowStep, init_db
 
 app = FastAPI(title="Agency Monitoring Portal API")
+
+
+def require_api_key(
+    authorization: str | None = Header(default=None),
+    x_api_key: str | None = Header(default=None),
+):
+    """Guard read/ops endpoints with the agency admin API key.
+
+    Fails closed: if ``PORTAL_API_KEY`` is not configured the endpoint refuses
+    to serve rather than running open. Accepts either an ``Authorization:
+    Bearer`` header or an ``X-API-Key`` header.
+    """
+    expected = os.getenv("PORTAL_API_KEY")
+    if not expected:
+        raise HTTPException(status_code=503, detail="PORTAL_API_KEY not configured")
+
+    presented = x_api_key
+    if not presented and authorization and authorization.lower().startswith("bearer "):
+        presented = authorization[len("bearer "):].strip()
+
+    if not presented or not secrets.compare_digest(presented, expected):
+        raise HTTPException(status_code=401, detail="invalid or missing API key")
+
+
+def require_ingest_token(x_ingest_token: str | None = Header(default=None)):
+    """Guard the workflow ingest endpoint with a dedicated token.
+
+    Fails closed: if ``WORKFLOW_INGEST_TOKEN`` is not configured the endpoint
+    refuses writes rather than accepting unauthenticated data.
+    """
+    expected = os.getenv("WORKFLOW_INGEST_TOKEN")
+    if not expected:
+        raise HTTPException(status_code=503, detail="WORKFLOW_INGEST_TOKEN not configured")
+    if not x_ingest_token or not secrets.compare_digest(x_ingest_token, expected):
+        raise HTTPException(status_code=401, detail="unauthorized")
 
 
 class WorkflowStepIn(BaseModel):
@@ -39,12 +76,12 @@ class WorkflowRunIn(BaseModel):
     outcomes: list[WorkflowOutcomeIn] = Field(default_factory=list)
 
 
-@app.get("/api/clients")
+@app.get("/api/clients", dependencies=[Depends(require_api_key)])
 def clients():
     return [{"slug": c.slug, "name": c.name, "pages_subdir": c.pages_subdir} for c in list_clients()]
 
 
-@app.get("/api/status/{slug}")
+@app.get("/api/status/{slug}", dependencies=[Depends(require_api_key)])
 def client_status(slug: str):
     try:
         client = get_client(slug)
@@ -86,16 +123,11 @@ def client_status(slug: str):
     return {"client": {"slug": client.slug, "name": client.name}, "status": rows}
 
 
-@app.post("/api/workflows/{slug}/runs")
+@app.post("/api/workflows/{slug}/runs", dependencies=[Depends(require_ingest_token)])
 def ingest_workflow_run(
     slug: str,
     payload: WorkflowRunIn,
-    x_ingest_token: str | None = Header(default=None),
 ):
-    expected_token = os.getenv("WORKFLOW_INGEST_TOKEN")
-    if expected_token and x_ingest_token != expected_token:
-        raise HTTPException(status_code=401, detail="unauthorized")
-
     try:
         client = get_client(slug)
     except FileNotFoundError:
@@ -164,7 +196,7 @@ def ingest_workflow_run(
     }
 
 
-@app.get("/api/workflows/{slug}/summary")
+@app.get("/api/workflows/{slug}/summary", dependencies=[Depends(require_api_key)])
 def workflow_summary(slug: str, hours: int = 24):
     try:
         client = get_client(slug)
@@ -212,11 +244,13 @@ def workflow_summary(slug: str, hours: int = 24):
     return {"client": {"slug": client.slug, "name": client.name}, "hours": hours, "workflows": summary}
 
 
-@app.get("/")
+@app.get("/", response_class=HTMLResponse)
 def home():
-    items = list_clients()
-    links = "".join(
-        f"<li><a href='/api/status/{c.slug}'>{c.name}</a> | <a href='/docs/{c.pages_subdir}/index.html'>client report</a></li>"
-        for c in items
+    # Intentionally does not enumerate clients: the client list is sensitive and
+    # is served only from the authenticated /api/clients endpoint.
+    return (
+        "<h1>Agency Monitoring Portal</h1>"
+        "<p>Operations API. Authenticated endpoints are available under "
+        "<code>/api</code>. Provide your API key via the "
+        "<code>Authorization: Bearer &lt;key&gt;</code> or <code>X-API-Key</code> header.</p>"
     )
-    return f"<h1>Agency Monitoring Portal</h1><ul>{links or '<li>No clients configured.</li>'}</ul>"
