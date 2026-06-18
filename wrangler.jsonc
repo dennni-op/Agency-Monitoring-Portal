@@ -5,6 +5,8 @@
   "observability": {
     "enabled": true
   },
+  // Publishes the project root, but .assetsignore excludes non-public files
+  // (app source, client configs, secrets) so only index.html and docs/ ship.
   "assets": {
     "directory": "."
   },

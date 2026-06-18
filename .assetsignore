@@ -1,0 +1,27 @@
+# Files that must never be published as public static assets by Wrangler.
+# Wrangler uploads everything under the assets directory (the project root)
+# that is not listed here, so keep this list comprehensive. The public surface
+# is limited to index.html and the generated docs/ report pages.
+
+# Python application source and tooling
+app/
+*.py
+__pycache__/
+
+# Client configuration (client names + DB env var mapping)
+configs/
+
+# Secrets and local environment
+.env
+.env.*
+.dev.vars
+.dev.vars.*
+
+# CI, project metadata, and docs source
+.github/
+.gitignore
+README.md
+ARCHITECTURE.md
+requirements.txt
+runtime.txt
+wrangler.jsonc
